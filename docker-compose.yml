@@ -1,0 +1,24 @@
+# docker-compose.yml — solo levantamos PostgreSQL; PHP lo gestiona Herd
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: movie_api
+      POSTGRES_USER: movie_user
+      POSTGRES_PASSWORD: movie_secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U movie_user -d movie_api"]
+      interval: 10s
+      retries: 5
+
+volumes:
+  postgres_data:
+    driver: local
+
+# Para levantar el servicio: `docker compose up -d`
+# Para detenerlo: `docker compose down`
