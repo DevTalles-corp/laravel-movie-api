@@ -1,8 +1,7 @@
 <?php
 
+use App\Http\Controllers\HealthController;
 use Illuminate\Support\Facades\Route;
 
 // /api/health
-Route::get('/health', function () {
-    return response()->json(["status"=>"OK", "app"=>"MovieAPI"]);
-});
+Route::get('/health', [HealthController::class,'index']);
