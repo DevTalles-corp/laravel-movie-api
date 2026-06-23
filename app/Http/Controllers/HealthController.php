@@ -11,6 +11,6 @@ class HealthController extends Controller
     use ApiResponse;
     public function __invoke():JsonResponse
     {
-        return $this->successResponse(["status"=>"OKI", "app"=>"MovieAPI"], "Health check");
+        return $this->successResponse(["status"=>"OK", "app"=>"MovieAPI"], "Health check");
     }
 }
