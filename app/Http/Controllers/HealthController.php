@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class HealthController extends Controller
 {
-    public function index():JsonResponse
+    use ApiResponse;
+    public function __invoke():JsonResponse
     {
-        return response()->json(["status"=>"OKI", "app"=>"MovieAPI"]);
+        return $this->successResponse(["status"=>"OKI", "app"=>"MovieAPI"], "Health check");
     }
 }
