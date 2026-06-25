@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\GenreResource;
+use App\Models\Genre;
+use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 
 class GenreController extends Controller
 {
+    use ApiResponse;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $genres = Genre::all();
+        return $this->successResponse(GenreResource::collection($genres));
     }
 
     /**
@@ -25,9 +30,9 @@ class GenreController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Genre $genre)
     {
-        //
+       return $this->successResponse(new GenreResource($genre));
     }
 
     /**
