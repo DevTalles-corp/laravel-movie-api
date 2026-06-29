@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Repositories;
-
-use BaseRepositoryInterface;
+namespace App\Repositories\Contracts;
 
 interface GenreRepositoryInterface extends BaseRepositoryInterface
 {
