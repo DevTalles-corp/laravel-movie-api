@@ -1,3 +1,38 @@
 @baseUrl = http://movie-api.test/api
+@genreId = 15
+
 GET {{baseUrl}}/health
+Accept: application/json
+
+### Listar todos los géneros
+GET {{baseUrl}}/genres
+Accept: application/json
+
+### Crear un género
+POST {{baseUrl}}/genres
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Suspenso",
+  "description": "Películas con tensión y giros inesperados.",
+  "is_active": true
+}
+
+### Ver un género
+GET {{baseUrl}}/genres/{{genreId}}
+Accept: application/json
+
+### Actualizar un género
+PUT {{baseUrl}}/genres/{{genreId}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Suspenso Psicológico",
+  "is_active": true
+}
+
+### Eliminar un género (soft delete)
+DELETE {{baseUrl}}/genres/{{genreId}}
 Accept: application/json
