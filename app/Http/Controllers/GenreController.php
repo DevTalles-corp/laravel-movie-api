@@ -9,6 +9,7 @@ use App\Models\Genre;
 use App\Repositories\Contracts\GenreRepositoryInterface;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Request as HttpRequest;
 
 class GenreController extends Controller
 {
@@ -18,9 +19,13 @@ class GenreController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(HttpRequest $request)
     {
-        $genres = $this->genres->all();
+        $genres = $this->genres->filter(
+            filters: $request->only(['search','is_active']),
+            sortBy: $request->input('sort_by','name'),
+            order: $request->input('order','asc'),
+        );
         return $this->successResponse(GenreResource::collection($genres));
     }
 
