@@ -14,4 +14,6 @@ interface GenreRepositoryInterface extends BaseRepositoryInterface
    ):Collection;
 
    public function findBySlugOrFail(string $slug):Model;
+
+   public function restore(int $id): Model;
 }
