@@ -1,5 +1,5 @@
 @baseUrl = http://movie-api.test/api
-@genreId = 15
+@genreId = 3
 
 GET {{baseUrl}}/health
 Accept: application/json
@@ -35,4 +35,16 @@ Accept: application/json
 
 ### Eliminar un género (soft delete)
 DELETE {{baseUrl}}/genres/{{genreId}}
+Accept: application/json
+
+### Listar géneros con filtros y ordenamiento
+GET {{baseUrl}}/genres?search=en&is_active=true&sort_by=name&order=desc
+Accept: application/json
+
+### Buscar género por slug
+GET {{baseUrl}}/genres/slug/suspenso-psicologico
+Accept: application/json
+
+### Restaurar un género eliminado
+POST {{baseUrl}}/genres/{{genreId}}/restore
 Accept: application/json
