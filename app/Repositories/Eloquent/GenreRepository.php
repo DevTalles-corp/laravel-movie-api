@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquent;
 use App\Models\Genre;
 use App\Repositories\Contracts\GenreRepositoryInterface;
 use \Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 class GenreRepository extends BaseRepository implements GenreRepositoryInterface
 {
@@ -33,5 +34,12 @@ class GenreRepository extends BaseRepository implements GenreRepositoryInterface
         )
         ->orderBy($sortBy,$order)
         ->get();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function findBySlugOrFail(string $slug): Model {
+        return Genre::where('slug',$slug)->firstOrFail();
     }
 }

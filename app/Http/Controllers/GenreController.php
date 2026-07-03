@@ -8,6 +8,7 @@ use App\Http\Resources\GenreResource;
 use App\Models\Genre;
 use App\Repositories\Contracts\GenreRepositoryInterface;
 use App\Traits\ApiResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Request as HttpRequest;
 
@@ -28,6 +29,13 @@ class GenreController extends Controller
         );
         return $this->successResponse(GenreResource::collection($genres));
     }
+
+    public function showBySlug(string $slug):JsonResponse
+    {
+        $genre = $this->genres->findBySlugOrFail($slug);
+        return $this->successResponse( new GenreResource($genre));
+    }
+    
 
     /**
      * Store a newly created resource in storage.

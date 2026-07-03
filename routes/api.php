@@ -8,3 +8,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/health', HealthController::class);
 
 Route::apiResource('genres', GenreController::class);
+
+Route::get("/genres/slug/{slug}", [GenreController::class, 'showBySlug']);
