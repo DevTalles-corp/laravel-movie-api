@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -32,5 +33,9 @@ class Genre extends Model
                     $genre->slug = Str::slug($genre->name);
                 }
         });
+    }
+    public function movies():BelongsToMany
+    {
+        return $this->belongsToMany(Movie::class);
     }
 }
