@@ -38,7 +38,7 @@ class MovieController extends Controller
                 $this->movieRepository->syncGenres($movie, $request->genre_ids);
             }
         $movie->load('genres');
-        return $this->successResponse(new MovieResource($movie),"Película creada exitosamente.");
+        return $this->successResponse(new MovieResource($movie),"Película creada exitosamente.", 201);
     }
 
     /**
