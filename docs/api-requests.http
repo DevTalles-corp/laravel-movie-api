@@ -1,6 +1,8 @@
 @baseUrl = http://movie-api.test/api
 @genreId = 3
 
+@movieId = 1
+
 GET {{baseUrl}}/health
 Accept: application/json
 
@@ -47,4 +49,49 @@ Accept: application/json
 
 ### Restaurar un género eliminado
 POST {{baseUrl}}/genres/{{genreId}}/restore
+Accept: application/json
+
+### =============================
+### PELÍCULAS
+### =============================
+
+### Listar todas las películas
+GET {{baseUrl}}/movies
+Accept: application/json
+
+### Listar películas con filtros
+GET {{baseUrl}}/movies?search=padrino&year=1972&min_rating=8&genre_id=4&sort_by=rating&order=desc
+Accept: application/json
+
+### Crear una película
+POST {{baseUrl}}/movies
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Blade Runner",
+  "synopsis": "Un policía caza androides en un futuro distópico.",
+  "year": 1982,
+  "rating": 8.1,
+  "director": "Ridley Scott",
+  "duration": 117,
+  "genre_ids": [6]
+}
+
+### Ver una película
+GET {{baseUrl}}/movies/{{movieId}}
+Accept: application/json
+
+### Actualizar una película
+PUT {{baseUrl}}/movies/{{movieId}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "rating": 9.0,
+  "genre_ids": [4]
+}
+
+### Eliminar una película (soft delete)
+DELETE {{baseUrl}}/movies/{{movieId}}
 Accept: application/json
