@@ -40,3 +40,32 @@ it('requires all fields on register', function () {
         ->assertStatus(422)
         ->assertJsonValidationErrors(['name', 'email', 'password']);
 });
+
+it('returns token for valid credentials on login', function () {
+    User::factory()->create(['email' => 'test@mail.com', 'password' => bcrypt('password123')]);
+    $response = $this->post('/api/auth/login', [
+        'email' => 'test@mail.com',
+        'password' => 'password123'
+    ]);
+
+    $response
+        ->assertStatus(200)
+        ->assertJsonStructure(['data' => ['access_token', 'token_type', 'expires_in', 'user']]);
+});
+
+it('returns user with valid token on me', function () {
+    $user = User::factory()->create();
+    $this
+        ->actingAs($user, 'api')
+        ->getJson('/api/auth:api/me')
+        ->assertStatus(200)
+        ->assertJsonPath('data.email', $user->email);
+});
+
+it('succeeds with valid token on logout', function () {
+    $user = User::factory()->create();
+    $this
+        ->actingAs($user, 'api')
+        ->postJson('/api/auth:api/logout')
+        ->assertStatus(200);
+});
