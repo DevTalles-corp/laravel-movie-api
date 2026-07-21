@@ -17,7 +17,7 @@ class CheckRole
     {
         $user = $request->user();
         if (! $user || ! in_array($user->role, $roles)) {
-            return response()->json(['message' => 'No tienes permiso para realizar esta acción.', 403]);
+            return response()->json(['message' => 'No tienes permiso para realizar esta acción.'], 403);
         }
 
         return $next($request);
