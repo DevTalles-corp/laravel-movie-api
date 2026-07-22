@@ -29,7 +29,7 @@ class GenreRepository extends BaseRepository implements GenreRepositoryInterface
         $order = strtolower($order) === 'desc' ? 'desc' : 'asc';
         $key = 'genres.index.'.md5(serialize(compact('filters', 'sortBy', 'order')));
 
-        $genres = Cache::remember($key, now()->addMinutes(30), function () use ($filters, $sortBy, $order) {
+        $json = Cache::remember($key, now()->addMinutes(30), function () use ($filters, $sortBy, $order) {
             return Genre::query()
                 ->when(isset($filters['search']),
                     fn ($q) => $q->whereRaw('LOWER(name) LIKE ?', ['%'.strtolower($filters['search']).'%']))
@@ -37,10 +37,10 @@ class GenreRepository extends BaseRepository implements GenreRepositoryInterface
                     fn ($q) => $q->where('is_active', filter_var($filters['is_active'], FILTER_VALIDATE_BOOLEAN)))
                 ->orderBy($sortBy, $order)
                 ->get()
-                ->toArray();
+                ->toJson();
         });
 
-        return Genre::hydrate($genres);
+        return Genre::hydrate(json_decode($json, true));
     }
 
     /**
