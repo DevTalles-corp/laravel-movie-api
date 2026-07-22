@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Eloquent;
 
+use App\Models\Genre;
 use App\Models\Movie;
 use App\Repositories\Contracts\MovieRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -25,7 +26,7 @@ class MovieRepository extends BaseRepository implements MovieRepositoryInterface
     public function filter(array $filters, string $sortBy = 'title', string $order = 'asc'): Collection
     {
         $key = 'movies.index.'.md5(serialize(compact('filters', 'sortBy', 'order')));
-        $movies = Cache::remember($key, now()->addMinutes(30), function () use ($filters, $sortBy, $order) {
+        $json = Cache::remember($key, now()->addMinutes(30), function () use ($filters, $sortBy, $order) {
             $query = Movie::with('genres');
             $query->when($filters['search'] ?? null, function ($q, $search) {
                 return $q->whereRaw('LOWER(title) LIKE ?', ['%'.strtolower($search).'%']);
@@ -47,10 +48,16 @@ class MovieRepository extends BaseRepository implements MovieRepositoryInterface
             $sortColumn = in_array($sortBy, self::SORTABLE) ? $sortBy : 'title';
             $order = $order === 'desc' ? 'desc' : 'asc';
 
-            return $query->orderBy($sortColumn, $order)->get()->toArray();
+            return $query->orderBy($sortColumn, $order)->get()->toJson();
+        });
+        $data = json_decode($json, true);
+        $movies = Movie::hydrate($data);
+        $movies->each(function (Movie $movie, int $i) use ($data): void {
+            unset($movie->genres);
+            $movie->setRelation('genres', Genre::hydrate($data[$i]['genres'] ?? []));
         });
 
-        return Movie::hydrate($movies);
+        return $movies;
     }
 
     /**
