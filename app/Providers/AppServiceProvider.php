@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Genre;
+use App\Models\Movie;
+use App\Observers\GenreObserver;
+use App\Observers\MovieObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Genre::observe(GenreObserver::class);
+        Movie::observe(MovieObserver::class);
     }
 }
