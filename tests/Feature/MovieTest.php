@@ -10,21 +10,21 @@ uses(RefreshDatabase::class);
 it('returns all movies on index', function () {
     Movie::factory()->count(3)->create();
 
-    $response = $this->getJson('api/movies');
+    $response = $this->getJson('api/v1/movies');
 
     $response->assertStatus(200)->assertJsonCount(3, 'data');
 });
 
 it('returns a single movie on show', function () {
     $movie = Movie::factory()->create();
-    $response = $this->getJson("api/movies/{$movie->id}");
+    $response = $this->getJson("api/v1/movies/{$movie->id}");
     $response->assertStatus(200)->assertJsonPath('data.id', $movie->id);
 });
 
 it('creates a movie with auto slug on store', function () {
     $payload = ['title' => 'Chucky', 'year' => 1988, 'rating' => 8];
 
-    $response = $this->actingAs(editor(), 'api')->postJson('api/movies', $payload);
+    $response = $this->actingAs(editor(), 'api')->postJson('api/v1/movies', $payload);
     $response
         ->assertStatus(201)
         ->assertJsonPath('data.title', 'Chucky')
@@ -36,7 +36,7 @@ it('creates a movie with auto slug on store', function () {
 it('modifies a movie with auto slug on update', function () {
     $movie = movie::factory()->create(['title' => 'Chucky', 'year' => 1988, 'rating' => 8]);
 
-    $response = $this->actingAs(editor(), 'api')->putJson("api/movies/{$movie->id}", ['title' => "Child's Play"]);
+    $response = $this->actingAs(editor(), 'api')->putJson("api/v1/movies/{$movie->id}", ['title' => "Child's Play"]);
     // dd($response->content());
     $response
         ->assertStatus(200)
@@ -48,7 +48,7 @@ it('modifies a movie with auto slug on update', function () {
 it('soft deletes a movie on destroy', function () {
     $movie = Movie::factory()->create();
 
-    $this->actingAs(admin(), 'api')->deleteJson("api/movies/{$movie->id}");
+    $this->actingAs(admin(), 'api')->deleteJson("api/v1/movies/{$movie->id}");
 
     $this->assertSoftDeleted('movies', ['id' => $movie->id]);
 });
@@ -62,7 +62,7 @@ it('syncs genres when provided on store', function () {
     $payload = ['title' => 'Test Movie', 'year' => 1988,
         'rating' => 5, 'genre_ids' => $genre_ids];
 
-    $response = $this->actingAs(editor(), 'api')->postJson('api/movies', $payload);
+    $response = $this->actingAs(editor(), 'api')->postJson('api/v1/movies', $payload);
     $response->assertCreated();
 
     $movie = Movie::latest()->first();
@@ -75,7 +75,7 @@ it('validates genre_ids exist on store', function () {
     $payload = ['title' => 'Test Movie', 'year' => 1988,
         'rating' => 5, 'genre_ids' => [999]];
 
-    $response = $this->actingAs(editor(), 'api')->postJson('api/movies', $payload);
+    $response = $this->actingAs(editor(), 'api')->postJson('api/v1/movies', $payload);
     $response
         ->assertUnprocessable()
         ->assertJsonPath('message', 'El campo genre_ids.0 no existe.')

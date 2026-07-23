@@ -12,7 +12,7 @@ it('creates user and returns token on register', function () {
         'password_confirmation' => 'password123',
     ];
 
-    $response = $this->post('/api/auth/register', $payload);
+    $response = $this->post('/api/v1/auth/register', $payload);
 
     $response
         ->assertStatus(201)
@@ -28,13 +28,13 @@ it('does not expose password on register', function () {
         'password_confirmation' => 'password123',
     ];
 
-    $response = $this->post('/api/auth/register', $payload);
+    $response = $this->post('/api/v1/auth/register', $payload);
 
     expect($response->json('data.user'))->not->toHavekey('password');
 });
 
 it('requires all fields on register', function () {
-    $response = $this->post('/api/auth/register', []);
+    $response = $this->post('/api/v1/auth/register', []);
 
     $response
         ->assertStatus(422)
@@ -43,7 +43,7 @@ it('requires all fields on register', function () {
 
 it('returns token for valid credentials on login', function () {
     User::factory()->create(['email' => 'test@mail.com', 'password' => bcrypt('password123')]);
-    $response = $this->post('/api/auth/login', [
+    $response = $this->post('/api/v1/auth/login', [
         'email' => 'test@mail.com',
         'password' => 'password123'
     ]);
@@ -57,7 +57,7 @@ it('returns user with valid token on me', function () {
     $user = User::factory()->create();
     $this
         ->actingAs($user, 'api')
-        ->getJson('/api/auth/me')
+        ->getJson('/api/v1/auth/me')
         ->assertStatus(200)
         ->assertJsonPath('data.email', $user->email);
 });
@@ -66,6 +66,6 @@ it('succeeds with valid token on logout', function () {
     $user = User::factory()->create();
     $this
         ->actingAs($user, 'api')
-        ->postJson('/api/auth/logout')
+        ->postJson('/api/v1/auth/logout')
         ->assertStatus(200);
 });

@@ -8,20 +8,20 @@ uses(RefreshDatabase::class);
 it('returns all genres on index', function () {
     Genre::factory()->count(3)->create();
 
-    $response = $this->getJson('api/genres');
+    $response = $this->getJson('api/v1/genres');
 
     $response->assertStatus(200)->assertJsonCount(3, 'data');
 });
 it('returns a single genre on show', function () {
     $genre = Genre::factory()->create();
-    $response = $this->getJson("api/genres/{$genre->id}");
+    $response = $this->getJson("api/v1/genres/{$genre->id}");
     $response->assertStatus(200)->assertJsonPath('data.id', $genre->id);
 });
 
 it('creates a genre with auto slug on store', function () {
     $payload = ['name' => 'Comedia', 'description' => 'Son para reir'];
 
-    $response = $this->actingAs(editor(), 'api')->postJson('api/genres', $payload);
+    $response = $this->actingAs(editor(), 'api')->postJson('api/v1/genres', $payload);
     $response
         ->assertStatus(201)
         ->assertJsonPath('data.name', 'Comedia')
@@ -33,7 +33,7 @@ it('creates a genre with auto slug on store', function () {
 it('modifies a genre with auto slug on update', function () {
     $genre = Genre::factory()->create(['name' => 'Terror']);
 
-    $response = $this->actingAs(editor(), 'api')->putJson("api/genres/{$genre->id}", ['name' => 'Horror clásico']);
+    $response = $this->actingAs(editor(), 'api')->putJson("api/v1/genres/{$genre->id}", ['name' => 'Horror clásico']);
     $response
         ->assertStatus(200)
         ->assertJsonPath('data.name', 'Horror clásico')
@@ -43,7 +43,7 @@ it('modifies a genre with auto slug on update', function () {
 it('soft deletes a genre on destroy', function () {
     $genre = Genre::factory()->create();
 
-    $this->actingAs(admin(), 'api')->deleteJson("api/genres/{$genre->id}");
+    $this->actingAs(admin(), 'api')->deleteJson("api/v1/genres/{$genre->id}");
 
     $this->assertSoftDeleted('genres', ['id' => $genre->id]);
 });

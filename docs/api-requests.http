@@ -1,20 +1,20 @@
-@baseUrl = http://movie-api.test/api
+@baseUrlV1 = http://movie-api.test/api/v1
 @genreId = 3
 
 @movieId = 1
 
 # Pega aquí el access_token que devuelve login o register
-@token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbW92aWUtYXBpLnRlc3QvYXBpL2F1dGg6YXBpL3JlZnJlc2giLCJpYXQiOjE3ODQxMjczNjMsImV4cCI6MTc4NDEzMDk5OCwibmJmIjoxNzg0MTI3Mzk4LCJqdGkiOiJwN2tJTXNRODZXYUM2NE1wIiwic3ViIjoiMTAiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.DlyCdRu_kB4v-6W_B1ZsivkiYkHYrquL_i0Yrv9Gh0A
+@token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbW92aWUtYXBpLnRlc3QvYXBpL3YxL2F1dGgvbG9naW4iLCJpYXQiOjE3ODQ4MjY2MzYsImV4cCI6MTc4NDgzMDIzNiwibmJmIjoxNzg0ODI2NjM2LCJqdGkiOiJYdG9LU0JDaTBmNEh4SHFLIiwic3ViIjoiMTAiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.EXQjFNF-1UKR7O9mswX0GJwgPxslJCSUsfptZ7z1p0w
 
-GET {{baseUrl}}/health
+GET {{baseUrlV1}}/health
 Accept: application/json
 
 ### Listar todos los géneros
-GET {{baseUrl}}/genres
+GET {{baseUrlV1}}/genres
 Accept: application/json
 
 ### Crear un género
-POST {{baseUrl}}/genres
+POST {{baseUrlV1}}/genres
 Content-Type: application/json
 Accept: application/json
 
@@ -25,11 +25,11 @@ Accept: application/json
 }
 
 ### Ver un género
-GET {{baseUrl}}/genres/{{genreId}}
+GET {{baseUrlV1}}/genres/{{genreId}}
 Accept: application/json
 
 ### Actualizar un género
-PUT {{baseUrl}}/genres/{{genreId}}
+PUT {{baseUrlV1}}/genres/{{genreId}}
 Content-Type: application/json
 Accept: application/json
 
@@ -39,19 +39,19 @@ Accept: application/json
 }
 
 ### Eliminar un género (soft delete)
-DELETE {{baseUrl}}/genres/{{genreId}}
+DELETE {{baseUrlV1}}/genres/{{genreId}}
 Accept: application/json
 
 ### Listar géneros con filtros y ordenamiento
-GET {{baseUrl}}/genres?search=en&is_active=true&sort_by=name&order=desc
+GET {{baseUrlV1}}/genres?search=en&is_active=true&sort_by=name&order=desc
 Accept: application/json
 
 ### Buscar género por slug
-GET {{baseUrl}}/genres/slug/suspenso-psicologico
+GET {{baseUrlV1}}/genres/slug/suspenso-psicologico
 Accept: application/json
 
 ### Restaurar un género eliminado
-POST {{baseUrl}}/genres/{{genreId}}/restore
+POST {{baseUrlV1}}/genres/{{genreId}}/restore
 Accept: application/json
 
 ### =============================
@@ -59,15 +59,15 @@ Accept: application/json
 ### =============================
 
 ### Listar todas las películas
-GET {{baseUrl}}/movies
+GET {{baseUrlV1}}/movies
 Accept: application/json
 
 ### Listar películas con filtros
-GET {{baseUrl}}/movies?search=padrino&year=1972&min_rating=8&genre_id=4&sort_by=rating&order=desc
+GET {{baseUrlV1}}/movies?search=padrino&year=1972&min_rating=8&genre_id=4&sort_by=rating&order=desc
 Accept: application/json
 
 ### Crear una película
-POST {{baseUrl}}/movies
+POST {{baseUrlV1}}/movies
 Content-Type: application/json
 Accept: application/json
 
@@ -82,11 +82,11 @@ Accept: application/json
 }
 
 ### Ver una película
-GET {{baseUrl}}/movies/{{movieId}}
+GET {{baseUrlV1}}/movies/{{movieId}}
 Accept: application/json
 
 ### Actualizar una película
-PUT {{baseUrl}}/movies/{{movieId}}
+PUT {{baseUrlV1}}/movies/{{movieId}}
 Content-Type: application/json
 Accept: application/json
 
@@ -96,7 +96,7 @@ Accept: application/json
 }
 
 ### Eliminar una película (soft delete)
-DELETE {{baseUrl}}/movies/{{movieId}}
+DELETE {{baseUrlV1}}/movies/{{movieId}}
 Accept: application/json
 
 ### =============================
@@ -104,7 +104,7 @@ Accept: application/json
 ### =============================
 
 ### Registrar un usuario
-POST {{baseUrl}}/auth/register
+POST {{baseUrlV1}}/auth/register
 Content-Type: application/json
 Accept: application/json
 
@@ -118,7 +118,7 @@ Accept: application/json
 ###
 
 ### Iniciar sesión
-POST {{baseUrl}}/auth/login
+POST {{baseUrlV1}}/auth/login
 Content-Type: application/json
 Accept: application/json
 
@@ -130,20 +130,20 @@ Accept: application/json
 ###
 
 ### Ver usuario autenticado (requiere token)
-GET {{baseUrl}}/auth:api/me
+GET {{baseUrlV1}}/auth/me
 Authorization: Bearer {{token}}
 Accept: application/json
 
 ###
 
 ### Refrescar token (renovar)
-POST {{baseUrl}}/auth:api/refresh
+POST {{baseUrlV1}}/auth/refresh
 Authorization: Bearer {{token}}
 Accept: application/json
 
 ###
 
 ### Cerrar sesión
-POST {{baseUrl}}/auth:api/logout
+POST {{baseUrlV1}}/auth/logout
 Authorization: Bearer {{token}}
 Accept: application/json
