@@ -1,7 +1,8 @@
 @baseUrlV1 = http://movie-api.test/api/v1
+@baseUrlV2 = http://movie-api.test/api/v2
 @genreId = 3
 
-@movieId = 1
+@movieId = 14
 
 # Pega aquí el access_token que devuelve login o register
 @token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbW92aWUtYXBpLnRlc3QvYXBpL3YxL2F1dGgvbG9naW4iLCJpYXQiOjE3ODQ4MjY2MzYsImV4cCI6MTc4NDgzMDIzNiwibmJmIjoxNzg0ODI2NjM2LCJqdGkiOiJYdG9LU0JDaTBmNEh4SHFLIiwic3ViIjoiMTAiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.EXQjFNF-1UKR7O9mswX0GJwgPxslJCSUsfptZ7z1p0w
@@ -146,4 +147,13 @@ Accept: application/json
 ### Cerrar sesión
 POST {{baseUrlV1}}/auth/logout
 Authorization: Bearer {{token}}
+Accept: application/json
+
+
+### Listar todas las películas con la versión 2
+GET {{baseUrlV2}}/movies
+Accept: application/json
+
+### Ver una película con la versión 2
+GET {{baseUrlV2}}/movies/{{movieId}}
 Accept: application/json
