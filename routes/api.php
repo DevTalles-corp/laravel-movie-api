@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\GenreController;
 use App\Http\Controllers\Api\V1\HealthController;
 use App\Http\Controllers\Api\V1\MovieController;
 use App\Http\Controllers\Api\V2\MovieController as MovieControllerV2;
+use App\Http\Controllers\PosterController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -48,6 +49,7 @@ Route::prefix('v1')->group(function () {
             Route::post('movies', [MovieController::class, 'store']);
             Route::put('movies/{movie}', [MovieController::class, 'update']);
             Route::patch('movies/{movie}', [MovieController::class, 'update']);
+            Route::post('movies/{movie}/poster', [PosterController::class, 'store']);
         });
         Route::middleware('role:admin')->group(function () {
             Route::delete('movies/{movie}', [MovieController::class, 'destroy']);
