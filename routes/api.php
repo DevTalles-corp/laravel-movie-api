@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\GenreController;
 use App\Http\Controllers\Api\V1\HealthController;
 use App\Http\Controllers\Api\V1\MovieController;
 use App\Http\Controllers\Api\V2\MovieController as MovieControllerV2;
+use App\Http\Controllers\AIController;
 use App\Http\Controllers\PosterController;
 use Illuminate\Support\Facades\Route;
 
@@ -50,10 +51,12 @@ Route::prefix('v1')->group(function () {
             Route::put('movies/{movie}', [MovieController::class, 'update']);
             Route::patch('movies/{movie}', [MovieController::class, 'update']);
             Route::post('movies/{movie}/poster', [PosterController::class, 'store']);
+            Route::get('movies/{movie}/generate-synopsis', [AIController::class, 'generateSynopsis']);
         });
         Route::middleware('role:admin')->group(function () {
             Route::delete('movies/{movie}', [MovieController::class, 'destroy']);
         });
+        Route::post('ai/recomendations', [AIController::class, 'recommendations']);
     });
 });
 Route::prefix('v2')->group(function () {
