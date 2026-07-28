@@ -31,6 +31,33 @@ class MovieAIService
         return trim($response->content[0]->text);
     }
 
+    private function parseRecommendations(string $raw): array
+    {
+        $decoded = json_decode(trim($raw), true);
+        if (is_array($decoded) && $this->isValidRecommendationArray($decoded)) {
+            return $decoded;
+        }
+        if (preg_match('/\[[\s\S]*?\]/m', $raw, $matches)) {
+            $decoded = json_decode($matches[0], true);
+            if (is_array($decoded) && $this->isValidRecommendationArray($decoded)) {
+                return $decoded;
+            }
+        }
+
+        return [];
+    }
+
+    private function isValidRecommendationArray(array $data): bool
+    {
+        foreach ($data as $item) {
+            if (! isset($item['title'], $item['reason'])) {
+                return false;
+            }
+        }
+
+        return count($data) > 0;
+    }
+
     private function buildSypnosisPrompt(Movie $movie): string
     {
         $genres = $movie->genres->pluck('name')->join(', ');
