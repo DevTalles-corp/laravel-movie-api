@@ -31,6 +31,34 @@ class MovieAIService
         return trim($response->content[0]->text);
     }
 
+    public function getRecomendations(array $favoriteGenres): array
+    {
+        $prompt = $this->buildRecommendationsPrompt($favoriteGenres);
+        $response = $this->client->messages->create(
+            maxTokens: 600,
+            messages: [['role' => 'user', 'content' => $prompt]],
+            model: $this->model
+        );
+
+        return $this->parseRecommendations($response->content[0]->text);
+    }
+
+    private function buildRecommendationsPrompt(array $favoriteGenres): string
+    {
+        $genreList = implode(', ', $favoriteGenres);
+
+        // Le pedimos JSON PURO con un formato exacto para poder parsearlo
+        return <<<PROMPT
+Eres un experto en cine. Recomienda exactamente 3 películas para alguien que disfruta los géneros: {$genreList}.
+Responde ÚNICAMENTE con un JSON válido con este formato exacto (sin texto adicional, sin markdown):
+[
+  {"title": "Nombre de la película", "year": 2020, "reason": "Breve razón de la recomendación"},
+  {"title": "Nombre de la película", "year": 1994, "reason": "Breve razón de la recomendación"},
+  {"title": "Nombre de la película", "year": 2010, "reason": "Breve razón de la recomendación"}
+]
+PROMPT;
+    }
+
     private function parseRecommendations(string $raw): array
     {
         $decoded = json_decode(trim($raw), true);
