@@ -25,7 +25,7 @@ class AIController extends Controller
             $this->errorResponse('Error al generar la sinopsis.'.$th->getMessage(), 502);
         }
 
-        return $this->successResponse(['synopsis' => $synopsis], 'Sinopsis generada exitosamente.');
+        return $this->successResponse(['título' => $movie->title, 'synopsis' => $synopsis], 'Sinopsis generada exitosamente.');
     }
 
     public function recommendations(RecommendationsRequest $request): JsonResponse

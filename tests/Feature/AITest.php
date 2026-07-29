@@ -22,7 +22,8 @@ it('allows an editor to generate a synopsis', function () {
         ->postJson("/api/v1/movies/{$movie->id}/generate-synopsis")
         ->assertOk()
         ->assertJsonPath('message', 'Sinopsis generada exitosamente.')
-        ->assertJsonPath('data.synopsis', 'Una película épica sobre el destino de la humanidad.');
+        ->assertJsonPath('data.synopsis', 'Una película épica sobre el destino de la humanidad.')
+        ->assertJsonPath('data.título', $movie->title);
 });
 
 it('allows an admin to generate a synopsis', function () {
