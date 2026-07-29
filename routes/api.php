@@ -51,12 +51,12 @@ Route::prefix('v1')->group(function () {
             Route::put('movies/{movie}', [MovieController::class, 'update']);
             Route::patch('movies/{movie}', [MovieController::class, 'update']);
             Route::post('movies/{movie}/poster', [PosterController::class, 'store']);
-            Route::get('movies/{movie}/generate-synopsis', [AIController::class, 'generateSynopsis']);
+            Route::post('movies/{movie}/generate-synopsis', [AIController::class, 'generateSynopsis']);
         });
         Route::middleware('role:admin')->group(function () {
             Route::delete('movies/{movie}', [MovieController::class, 'destroy']);
         });
-        Route::post('ai/recomendations', [AIController::class, 'recommendations']);
+        Route::post('ai/recommendations', [AIController::class, 'recommendations']);
     });
 });
 Route::prefix('v2')->group(function () {
