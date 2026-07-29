@@ -55,6 +55,11 @@ function editor(): User
     return User::factory()->create(['role' => 'editor']);
 }
 
+function viewer(): User
+{
+    return User::factory()->create(['role' => 'viewer']);
+}
+
 function something()
 {
     // ..

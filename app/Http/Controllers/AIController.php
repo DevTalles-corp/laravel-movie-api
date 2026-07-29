@@ -31,7 +31,7 @@ class AIController extends Controller
     public function recommendations(RecommendationsRequest $request): JsonResponse
     {
         try {
-            $recommendations = $this->movieAIService->getRecomendations($request->validated('genres'));
+            $recommendations = $this->movieAIService->getRecommendations($request->validated('genres'));
         } catch (\Throwable $th) {
             $this->errorResponse('Error al obtener recomendaciones.'.$th->getMessage(), 502);
         }

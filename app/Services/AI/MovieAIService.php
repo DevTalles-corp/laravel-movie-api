@@ -31,7 +31,7 @@ class MovieAIService
         return trim($response->content[0]->text);
     }
 
-    public function getRecomendations(array $favoriteGenres): array
+    public function getRecommendations(array $favoriteGenres): array
     {
         $prompt = $this->buildRecommendationsPrompt($favoriteGenres);
         $response = $this->client->messages->create(
