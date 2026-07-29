@@ -5,7 +5,7 @@
 @movieId = 14
 
 # Pega aquí el access_token que devuelve login o register
-@token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbW92aWUtYXBpLnRlc3QvYXBpL3YxL2F1dGgvbG9naW4iLCJpYXQiOjE3ODQ4MjY2MzYsImV4cCI6MTc4NDgzMDIzNiwibmJmIjoxNzg0ODI2NjM2LCJqdGkiOiJYdG9LU0JDaTBmNEh4SHFLIiwic3ViIjoiMTAiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.EXQjFNF-1UKR7O9mswX0GJwgPxslJCSUsfptZ7z1p0w
+@token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbW92aWUtYXBpLnRlc3QvYXBpL3YxL2F1dGgvbG9naW4iLCJpYXQiOjE3ODUzNDk2MDcsImV4cCI6MTc4NTM1MzIwNywibmJmIjoxNzg1MzQ5NjA3LCJqdGkiOiJRdWw4MzE1MFhiQ01tR1p4Iiwic3ViIjoiMTEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.0g4a8pT_fSDJ-n0vM86EXHrCzHRd8BQkm589zLRpQtE
 
 GET {{baseUrlV1}}/health
 Accept: application/json
@@ -124,7 +124,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "email": "teddy@movie-api.test",
+  "email": "admin@movie-api.test",
   "password": "password123"
 }
 
@@ -157,3 +157,24 @@ Accept: application/json
 ### Ver una película con la versión 2
 GET {{baseUrlV2}}/movies/{{movieId}}
 Accept: application/json
+
+### =============================
+### IA — INTELIGENCIA ARTIFICIAL
+### =============================
+
+### Generar sinopsis con IA (requiere editor o admin)
+POST {{baseUrlV1}}/movies/{{movieId}}/generate-synopsis
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+### Obtener recomendaciones de películas
+POST {{baseUrlV1}}/ai/recommendations
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+  "genres": ["Animación"]
+}
