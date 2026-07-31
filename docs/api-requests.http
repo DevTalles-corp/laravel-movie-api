@@ -1,11 +1,11 @@
-@baseUrlV1 = http://movie-api.test/api/v1
-@baseUrlV2 = http://movie-api.test/api/v2
-@genreId = 3
+@baseUrlV1 = https://movie-api-laravel-production-a4c5.up.railway.app/api/v1
+@baseUrlV2 = https://movie-api-laravel-production-a4c5.up.railway.app/api/v2
+@genreId = 13
 
-@movieId = 14
+@movieId = 37
 
 # Pega aquí el access_token que devuelve login o register
-@token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbW92aWUtYXBpLnRlc3QvYXBpL3YxL2F1dGgvbG9naW4iLCJpYXQiOjE3ODUzNDk2MDcsImV4cCI6MTc4NTM1MzIwNywibmJmIjoxNzg1MzQ5NjA3LCJqdGkiOiJRdWw4MzE1MFhiQ01tR1p4Iiwic3ViIjoiMTEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.0g4a8pT_fSDJ-n0vM86EXHrCzHRd8BQkm589zLRpQtE
+@token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbW92aWUtYXBpLWxhcmF2ZWwtcHJvZHVjdGlvbi1hNGM1LnVwLnJhaWx3YXkuYXBwL2FwaS92MS9hdXRoL2xvZ2luIiwiaWF0IjoxNzg1NTIyNjM5LCJleHAiOjE3ODU1MjYyMzksIm5iZiI6MTc4NTUyMjYzOSwianRpIjoiSTNuczVzaHI4SVZPdGR0SiIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.JLvX7YnVnhJLR_EFeSDuW4Jix12iuKhpzWr9WADP5VE
 
 GET {{baseUrlV1}}/health
 Accept: application/json
@@ -16,6 +16,7 @@ Accept: application/json
 
 ### Crear un género
 POST {{baseUrlV1}}/genres
+Authorization: Bearer {{token}}
 Content-Type: application/json
 Accept: application/json
 
@@ -31,6 +32,7 @@ Accept: application/json
 
 ### Actualizar un género
 PUT {{baseUrlV1}}/genres/{{genreId}}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 Accept: application/json
 
@@ -41,6 +43,7 @@ Accept: application/json
 
 ### Eliminar un género (soft delete)
 DELETE {{baseUrlV1}}/genres/{{genreId}}
+Authorization: Bearer {{token}}
 Accept: application/json
 
 ### Listar géneros con filtros y ordenamiento
@@ -48,11 +51,12 @@ GET {{baseUrlV1}}/genres?search=en&is_active=true&sort_by=name&order=desc
 Accept: application/json
 
 ### Buscar género por slug
-GET {{baseUrlV1}}/genres/slug/suspenso-psicologico
+GET {{baseUrlV1}}/genres/slug/accion
 Accept: application/json
 
 ### Restaurar un género eliminado
 POST {{baseUrlV1}}/genres/{{genreId}}/restore
+Authorization: Bearer {{token}}
 Accept: application/json
 
 ### =============================
@@ -69,6 +73,7 @@ Accept: application/json
 
 ### Crear una película
 POST {{baseUrlV1}}/movies
+Authorization: Bearer {{token}}
 Content-Type: application/json
 Accept: application/json
 
@@ -88,6 +93,7 @@ Accept: application/json
 
 ### Actualizar una película
 PUT {{baseUrlV1}}/movies/{{movieId}}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 Accept: application/json
 
@@ -98,6 +104,7 @@ Accept: application/json
 
 ### Eliminar una película (soft delete)
 DELETE {{baseUrlV1}}/movies/{{movieId}}
+Authorization: Bearer {{token}}
 Accept: application/json
 
 ### =============================
